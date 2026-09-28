@@ -1,0 +1,320 @@
+#!/bin/bash
+
+# ============================================================
+# AUDITORIA BASICA DE HARDENING - METASPLOITABLE 2
+# Compatible con Ubuntu antiguo
+# Ejecutar con: sudo ./analizador
+# ============================================================
+
+# ---------- COLORES ----------
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+ok() {
+    printf "${GREEN}[ OK ]${NC} %s\n" "$1"
+}
+
+fail() {
+    printf "${RED}[ FAIL ]${NC} %s\n" "$1"
+}
+
+warn() {
+    printf "${YELLOW}[ WARN ]${NC} %s\n" "$1"
+}
+
+titulo() {
+    printf "\n${BLUE}============================================================${NC}\n"
+    printf "${BLUE} %s${NC}\n" "$1"
+    printf "${BLUE}============================================================${NC}\n"
+}
+
+# ---------- COMPROBAR ROOT ----------
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Error: ejecutar como root o con sudo."
+    exit 1
+fi
+
+echo
+echo "Iniciando Auditoria de Hardening en $(hostname)"
+date
+echo
+
+# ============================================================
+# 1. CUENTAS DE USUARIO Y SSH
+# ============================================================
+
+titulo "1. CUENTAS DE USUARIO Y CONFIGURACION SSH"
+
+# ---- Contraseñas vacías ----
+
+EMPTY_PASS=$(awk -F: '($2 == "") {print $1}' /etc/shadow)
+
+if [ -z "$EMPTY_PASS" ]; then
+    ok "No existen cuentas con contraseña vacía."
+else
+    fail "Cuentas con contraseña vacía: $EMPTY_PASS"
+fi
+
+
+# ---- Configuración SSH ----
+
+SSH_CONF="/etc/ssh/sshd_config"
+
+if [ -f "$SSH_CONF" ]; then
+
+    # PermitRootLogin
+    ROOT_LOGIN=$(grep -i '^[[:space:]]*PermitRootLogin' "$SSH_CONF" \
+        | grep -v '^[[:space:]]*#' \
+        | tail -1 \
+        | awk '{print $2}')
+
+    if [ "$ROOT_LOGIN" = "no" ]; then
+        ok "PermitRootLogin = no"
+    elif [ -z "$ROOT_LOGIN" ]; then
+        warn "PermitRootLogin no está configurado explícitamente."
+    else
+        fail "Revisar PermitRootLogin ($ROOT_LOGIN)"
+    fi
+
+
+    # PasswordAuthentication
+    PASS_AUTH=$(grep -i '^[[:space:]]*PasswordAuthentication' "$SSH_CONF" \
+        | grep -v '^[[:space:]]*#' \
+        | tail -1 \
+        | awk '{print $2}')
+
+    if [ "$PASS_AUTH" = "no" ]; then
+        ok "PasswordAuthentication = no"
+    elif [ -z "$PASS_AUTH" ]; then
+        warn "PasswordAuthentication no está configurado explícitamente."
+    else
+        warn "PasswordAuthentication permitido ($PASS_AUTH)"
+    fi
+
+
+    # PermitEmptyPasswords
+    EMPTY_SSH=$(grep -i '^[[:space:]]*PermitEmptyPasswords' "$SSH_CONF" \
+        | grep -v '^[[:space:]]*#' \
+        | tail -1 \
+        | awk '{print $2}')
+
+    if [ "$EMPTY_SSH" = "no" ]; then
+        ok "PermitEmptyPasswords = no"
+    elif [ -z "$EMPTY_SSH" ]; then
+        warn "PermitEmptyPasswords no está configurado explícitamente."
+    else
+        fail "PermitEmptyPasswords = $EMPTY_SSH"
+    fi
+
+else
+    warn "No existe $SSH_CONF"
+fi
+
+
+# ============================================================
+# 2. PERMISOS DE ARCHIVOS
+# ============================================================
+
+titulo "2. PERMISOS EN ARCHIVOS DE SISTEMA Y CRITICOS"
+
+comprobar_permiso() {
+
+    ARCHIVO="$1"
+    ESPERADO="$2"
+
+    if [ ! -e "$ARCHIVO" ]; then
+        warn "$ARCHIVO no existe."
+        return
+    fi
+
+    ACTUAL=$(stat -c "%a" "$ARCHIVO" 2>/dev/null)
+
+    if [ "$ACTUAL" = "$ESPERADO" ]; then
+        ok "$ARCHIVO: $ACTUAL"
+    else
+        fail "$ARCHIVO: $ACTUAL (esperado $ESPERADO)"
+    fi
+}
+
+comprobar_permiso "/etc/shadow" "600"
+comprobar_permiso "/etc/passwd" "644"
+comprobar_permiso "/etc/gshadow" "600"
+comprobar_permiso "/etc/group" "644"
+
+echo
+
+# ---- SUID ----
+
+SUID_COUNT=$(find / -type f -perm -4000 2>/dev/null | wc -l)
+
+if [ "$SUID_COUNT" -le 30 ]; then
+    ok "Ejecutables SUID detectados: $SUID_COUNT"
+else
+    warn "Revisar ejecutables SUID: $SUID_COUNT"
+fi
+
+
+# ============================================================
+# 3. SEGURIDAD DEL KERNEL Y RED
+# ============================================================
+
+titulo "3. SEGURIDAD DEL KERNEL Y RED (SYSCTL)"
+
+comprobar_sysctl() {
+
+    PARAM="$1"
+    ESPERADO="$2"
+
+    ACTUAL=$(sysctl -n "$PARAM" 2>/dev/null)
+
+    if [ -z "$ACTUAL" ]; then
+        warn "$PARAM no disponible."
+    elif [ "$ACTUAL" = "$ESPERADO" ]; then
+        ok "$PARAM = $ACTUAL"
+    else
+        fail "$PARAM = $ACTUAL (esperado $ESPERADO)"
+    fi
+}
+
+comprobar_sysctl "net.ipv4.ip_forward" "0"
+comprobar_sysctl "net.ipv4.tcp_syncookies" "1"
+comprobar_sysctl "net.ipv4.conf.all.accept_redirects" "0"
+comprobar_sysctl "net.ipv4.conf.default.accept_redirects" "0"
+comprobar_sysctl "net.ipv4.conf.all.accept_source_route" "0"
+comprobar_sysctl "net.ipv4.conf.default.accept_source_route" "0"
+comprobar_sysctl "net.ipv4.icmp_echo_ignore_broadcasts" "1"
+comprobar_sysctl "net.ipv4.conf.all.rp_filter" "1"
+comprobar_sysctl "kernel.randomize_va_space" "2"
+
+
+# ============================================================
+# 4. SERVICIOS Y PUERTOS INSEGUROS
+# ============================================================
+
+titulo "4. SERVICIOS Y PUERTOS EXPUESTOS"
+
+echo "Puertos TCP/UDP actualmente en escucha:"
+echo
+
+netstat -tulnp 2>/dev/null
+
+echo
+echo "Comprobando servicios inseguros..."
+echo
+
+# FTP - 21
+if netstat -tuln 2>/dev/null | grep -q ':21 '; then
+    fail "FTP detectado en puerto 21."
+else
+    ok "Puerto 21 (FTP) cerrado."
+fi
+
+# Telnet - 23
+if netstat -tuln 2>/dev/null | grep -q ':23 '; then
+    fail "Telnet detectado en puerto 23."
+else
+    ok "Puerto 23 (Telnet) cerrado."
+fi
+
+# rsh - 514
+if netstat -tuln 2>/dev/null | grep -q ':514 '; then
+    fail "rsh/rlogin detectado en puerto 514."
+else
+    ok "Puerto 514 cerrado."
+fi
+
+# rexec - 512
+if netstat -tuln 2>/dev/null | grep -q ':512 '; then
+    fail "rexec detectado en puerto 512."
+else
+    ok "Puerto 512 cerrado."
+fi
+
+# rlogin - 513
+if netstat -tuln 2>/dev/null | grep -q ':513 '; then
+    fail "rlogin detectado en puerto 513."
+else
+    ok "Puerto 513 cerrado."
+fi
+
+
+# ============================================================
+# 5. FIREWALL
+# ============================================================
+
+titulo "5. FIREWALL"
+
+INPUT_POLICY=$(iptables -L INPUT -n 2>/dev/null | head -1)
+
+if echo "$INPUT_POLICY" | grep -q "policy DROP"; then
+    ok "Política INPUT = DROP"
+elif echo "$INPUT_POLICY" | grep -q "policy REJECT"; then
+    ok "Política INPUT = REJECT"
+else
+    warn "La política INPUT no es DROP/REJECT."
+fi
+
+echo
+echo "Reglas actuales:"
+iptables -L -n 2>/dev/null
+
+
+# ============================================================
+# 6. SERVICIOS DE AUDITORIA
+# ============================================================
+
+titulo "6. REGISTROS Y AUDITORIA"
+
+# rsyslog / syslog
+if ps aux | grep -v grep | grep -q "rsyslogd"; then
+    ok "rsyslog está activo."
+elif ps aux | grep -v grep | grep -q "syslogd"; then
+    ok "syslog está activo."
+else
+    warn "No se detecta rsyslog/syslog."
+fi
+
+
+# auditd
+if ps aux | grep -v grep | grep -q "auditd"; then
+    ok "auditd está activo."
+else
+    warn "auditd no está activo o no está instalado."
+fi
+
+
+# ============================================================
+# 7. ACTUALIZACIONES
+# ============================================================
+
+titulo "7. ACTUALIZACIONES Y SISTEMA"
+
+echo "Versión del kernel:"
+uname -a
+
+echo
+echo "Versión del sistema:"
+if [ -f /etc/lsb-release ]; then
+    cat /etc/lsb-release
+else
+    cat /etc/issue
+fi
+
+
+# ============================================================
+# RESULTADO FINAL
+# ============================================================
+
+titulo "AUDITORIA FINALIZADA"
+
+echo "Revisa especialmente los elementos marcados como:"
+printf "${RED}[ FAIL ]${NC}  Configuración insegura detectada.\n"
+printf "${YELLOW}[ WARN ]${NC}  Requiere revisión manual.\n"
+printf "${GREEN}[ OK ]${NC}    Comprobación superada.\n"
+
+echo
+echo "Fin de la auditoria."
+echo
