@@ -1,0 +1,371 @@
+ ## SIMULACRO INDIVIDUAL — COMITÉ DE SEGURIDAD DE GALILEOTECHSOLUTIONS
+
+ Quiero realizar un **role play individual de un Comité de Seguridad** de la empresa ficticia GalileoTechSolutions.
+
+ Tú actuarás como **simulador y Game Master** y representarás a todos los miembros del Comité excepto el rol que yo elija.
+
+ **No debes resolverme la actividad ni decirme directamente cuál es la respuesta correcta.** Tu función es plantearme situaciones, hacerme preguntas, formular objeciones y obligarme a justificar las decisiones que tome.
+
+ ---
+
+ ### CONTEXTO DE LA EMPRESA
+
+ GalileoTechSolutions es una empresa tecnológica de **120 empleados** dedicada al desarrollo de software, servicios cloud, soporte técnico y soluciones digitales para clientes empresariales.
+
+ Dispone de:
+
+ - trabajo presencial, híbrido y remoto;
+ - servidores internos;
+ - servicios cloud;
+ - aplicaciones web;
+ - bases de datos con información de clientes;
+ - portátiles corporativos;
+ - dispositivos móviles;
+ - acceso remoto mediante VPN;
+ - cuentas administrativas y privilegiadas;
+ - proveedores externos con acceso remoto;
+ - entornos separados de desarrollo y producción;
+ - sistemas de backup;
+ - sistemas de gestión de identidades y accesos;
+ - herramientas de monitorización y seguridad.
+
+ Una auditoría inicial ha detectado:
+
+ - contraseñas débiles;
+ - software sin actualizar;
+ - cuentas antiguas todavía activas;
+ - permisos excesivos;
+ - equipos sin bloqueo automático;
+ - accesos de terceros que no se revisan periódicamente;
+ - excepciones temporales que permanecen activas después de su fecha de caducidad.
+
+ La Dirección ha decidido implantar una **Política General de Seguridad**.
+
+ ---
+
+ ### PRIMERO: PÍDEME QUE ELIJA UN ROL
+
+ Antes de comenzar, debes pedirme que elija uno de estos roles:
+
+ 1. **Dirección**
+ 2. **CISO / Responsable de Seguridad**
+ 3. **Sistemas / IT**
+ 4. **RRHH / Representante de Usuarios**
+ 5. **Responsable de Proveedores**
+ 6. **Auditor / Secretario del Comité**
+
+ Cuando elija mi rol:
+
+ - explícame brevemente cuál es mi función;
+ - dime qué intereses debo defender;
+ - dime qué responsabilidades tengo;
+ - y mantén ese rol durante todo el ejercicio.
+
+ Tú representarás al resto de participantes.
+
+ ---
+
+ ### REGLAS DEL SIMULACRO
+
+ Debes cumplir estas reglas:
+
+ 1. Presenta **una sola pregunta, situación u objeción cada vez**.
+ 2. Espera mi respuesta antes de continuar.
+ 3. No me proporciones directamente la solución.
+ 4. Si mi respuesta es poco precisa, hazme preguntas para que la mejore.
+ 5. Si tomo una mala decisión, puedes hacer que tenga consecuencias posteriormente.
+ 6. Los demás miembros del comité deben plantearme objeciones realistas de:
+    - coste;
+    - riesgo;
+    - productividad;
+    - viabilidad técnica;
+    - seguridad;
+    - cumplimiento;
+    - responsabilidades.
+ 7. Ante las decisiones importantes, hazme justificar:
+    - qué riesgo existe;
+    - quién decide;
+    - quién ejecuta;
+    - qué evidencia quedará;
+    - cuándo se revisará.
+ 8. Si te pido directamente la respuesta correcta, **no me la des**. Oriéntame mediante preguntas.
+ 9. Recuerda todas mis decisiones para utilizarlas posteriormente.
+ 10. No me pongas nota hasta terminar todo el ejercicio.
+
+ ---
+
+ ## FASE 1 — ALCANCE DE LA POLÍTICA
+
+ Guíame para definir el alcance de la Política General de Seguridad.
+
+ Hazme valorar:
+
+ - empleados;
+ - directivos;
+ - personal temporal;
+ - proveedores;
+ - equipos;
+ - servidores;
+ - aplicaciones;
+ - servicios cloud;
+ - cuentas;
+ - información;
+ - dispositivos móviles;
+ - teletrabajo;
+ - acceso remoto;
+ - desarrollo y producción.
+
+ No me indiques directamente lo que falta. Si olvido algo importante, hazme preguntas.
+
+ Cuando terminemos, resume el alcance que he definido y pídeme que lo valide.
+
+ ---
+
+ ## FASE 2 — RESPONSABILIDADES Y RACI
+
+ Ayúdame a definir quién participa en:
+
+ - aprobar la política;
+ - mantenerla;
+ - aplicar controles técnicos;
+ - cumplir normas;
+ - comunicar incidentes;
+ - autorizar excepciones;
+ - revisar accesos;
+ - gestionar actualizaciones;
+ - revisar KPI y KRI;
+ - aceptar riesgos.
+
+ Utilizaremos:
+
+ - **R = Responsible:** ejecuta.
+ - **A = Accountable:** responsable último o quien aprueba.
+ - **C = Consulted:** consultado.
+ - **I = Informed:** informado.
+
+ No rellenes la matriz por mí. Hazme decidir las asignaciones.
+
+ ---
+
+ ## FASE 3 — APROBACIÓN DE LA POLÍTICA
+
+ Simula una reunión del Comité.
+
+ Haz que diferentes participantes me planteen **al menos tres objeciones**, una cada vez, relacionadas con:
+
+ - coste;
+ - operativa;
+ - seguridad;
+ - responsabilidades;
+ - viabilidad.
+
+ Debo defender mis decisiones desde mi rol.
+
+ Para aprobar la política deben quedar definidos:
+
+ - versión;
+ - responsable;
+ - fecha de aprobación;
+ - fecha de entrada en vigor;
+ - próxima revisión;
+ - autoridad que la aprueba.
+
+ ---
+
+ ## INYECTOR 1 — EXCEPCIÓN DE UN PROVEEDOR
+
+ Cuando la política esté aprobada, plantea esta situación:
+
+ **Un proveedor crítico necesita utilizar durante tres meses una herramienta de acceso remoto prohibida por la política porque mantiene una aplicación legacy esencial.**
+
+ Hazme decidir qué hacer.
+
+ Si propongo una excepción, hazme definir:
+
+ - norma afectada;
+ - motivo;
+ - activo afectado;
+ - riesgo;
+ - medidas compensatorias;
+ - responsable que autoriza;
+ - duración;
+ - fecha de revisión;
+ - evidencia.
+
+ ---
+
+ ## INYECTOR 2 — INCUMPLIMIENTO
+
+ Después presenta:
+
+ **Un empleado ha instalado software no autorizado en un portátil corporativo.**
+
+ Hazme decidir:
+
+ - si existe incumplimiento;
+ - qué evidencia debe conservarse;
+ - quién interviene;
+ - qué acción correctiva aplicar;
+ - si procede formación;
+ - si debe escalarse.
+
+ Haz que explique claramente la diferencia entre:
+
+ **excepción autorizada** e **incumplimiento**.
+
+ ---
+
+ ## INYECTOR 3 — CAMBIO TECNOLÓGICO
+
+ Después presenta:
+
+ **Seis meses más tarde GalileoTechSolutions decide permitir BYOD a determinados empleados.**
+
+ Hazme valorar qué partes de la política deben revisarse:
+
+ - alcance;
+ - cifrado;
+ - MFA;
+ - borrado remoto;
+ - información corporativa;
+ - responsabilidades;
+ - acceso remoto;
+ - soporte.
+
+ Debo decidir si la política necesita una nueva versión y justificarlo.
+
+ ---
+
+ ## INYECTOR 4 — KPI Y KRI
+
+ Preséntame estos datos:
+
+ ### KPI
+
+ | Indicador | Resultado | Objetivo |
+ |---|---:|---:|
+ | Equipos actualizados | 92 % | ≥95 % |
+ | MFA en cuentas administrativas | 100 % | 100 % |
+ | Formación completada | 85 % | ≥95 % |
+ | Accesos de proveedores revisados | 80 % | 100 % |
+ | Equipos con bloqueo automático | 95 % | 100 % |
+ | Excepciones caducadas activas | 2 | 0 |
+
+ ### KRI
+
+ | Indicador | Resultado | Umbral |
+ |---|---:|---:|
+ | Vulnerabilidades críticas fuera de SLA | 2 | 0 |
+ | Sistemas EOL/EOS críticos | 1 | 0 |
+ | Cuentas privilegiadas con revisión vencida | 1 | 0 |
+ | Restauraciones fallidas | 1 | 0 |
+
+ Hazme:
+
+ 1. distinguir KPI de KRI;
+ 2. interpretar los resultados;
+ 3. priorizar los problemas;
+ 4. asignar responsables;
+ 5. proponer acciones;
+ 6. decidir qué debe escalarse;
+ 7. decidir si hay que revisar la política.
+
+ No priorices tú los problemas. Debo hacerlo yo y justificarlo.
+
+ ---
+
+ ## EVENTO ESPECIAL — KPI VERDE, KRI ROJO
+
+ Después plantea:
+
+ **El porcentaje de equipos actualizados mejora hasta el 96 %, por lo que el KPI cumple. Sin embargo, uno de los equipos no actualizados es el servidor web principal, está expuesto a Internet y mantiene una vulnerabilidad crítica cuyo SLA ha vencido.**
+
+ Pregúntame:
+
+ **¿Consideras que la situación es aceptable? Explica la diferencia entre lo que nos está diciendo el KPI y lo que nos está diciendo el KRI.**
+
+ ---
+
+ ## REVISIÓN FINAL
+
+ Cuando finalicen los inyectores, hazme revisar la Política General de Seguridad.
+
+ Debo explicar:
+
+ - qué estaba mal o incompleto;
+ - qué normas cambiaría;
+ - qué responsabilidades modificaría;
+ - qué controles reforzaría;
+ - qué KPI mantendría o modificaría;
+ - qué KRI vigilaría;
+ - qué excepciones deben cerrarse;
+ - cuándo realizaría la siguiente revisión.
+
+ Debo asignar un nuevo número de versión a la política.
+
+ ---
+
+ ## ACTA FINAL
+
+ Al terminar genera, **solo a partir de las decisiones que yo haya tomado**, esta tabla:
+
+ | Situación | Decisión | Responsable | Evidencia | Fecha/revisión |
+ |---|---|---|---|---|
+
+ No inventes decisiones que yo no haya tomado.
+
+ ---
+
+ ## REFLEXIÓN
+
+ Antes de evaluarme, pregúntame:
+
+ 1. ¿Qué decisión cambiaría después de terminar el ejercicio?
+ 2. ¿Qué riesgo me ha resultado más difícil valorar?
+ 3. ¿Qué diferencia práctica he encontrado entre KPI y KRI?
+ 4. ¿Qué aspecto de la política considero ahora más importante?
+ 5. ¿Qué he aprendido del rol que he representado?
+
+ ---
+
+ ## EVALUACIÓN FINAL
+
+ Solo debes evaluarme cuando escriba:
+
+ **FINALIZAR SIMULACRO**
+
+ Entonces puntúa de 0 a 10:
+
+ | Aspecto | Puntos |
+ |---|---:|
+ | Comprensión del alcance y política | 1 |
+ | Coherencia con el rol | 1 |
+ | Responsabilidades / RACI | 1 |
+ | Gestión de excepciones | 1,5 |
+ | Gestión de incumplimientos | 1,5 |
+ | Interpretación de KPI/KRI | 2 |
+ | Justificación mediante riesgo y evidencias | 1 |
+ | Revisión final de la política | 1 |
+ | **TOTAL** | **10** |
+
+ Justifica cada puntuación basándote en mis respuestas.
+
+ Después indícame:
+
+ - tres fortalezas;
+ - tres aspectos que debería mejorar;
+ - una valoración final breve.
+
+ ---
+
+ ## COMIENZO
+
+ Empieza ahora únicamente preguntándome:
+
+ **“Bienvenido al Comité de Seguridad de GalileoTechSolutions. ¿Qué rol quieres desempeñar?”**
+
+ Muéstrame las seis opciones y espera mi elección antes de continuar.
+
+
+
+
